@@ -72,21 +72,9 @@ function updateHud() {
   bestEl.textContent = best;
   speedEl.textContent = `${speed.toFixed(1)}x`;
   if (versionEl && !versionEl.textContent) {
-    versionEl.textContent = `v${FALLBACK_VERSION}`;
-  }
-}
-
-async function syncVersionFromChangelog() {
-  if (!versionEl) return;
-  try {
-    const res = await fetch('./CHANGELOG.md', { cache: 'no-store' });
-    if (!res.ok) throw new Error('fetch failed');
-    const text = await res.text();
-    const match = text.match(/^## \\[(\\d+\\.\\d+\\.\\d+)\\]/m);
-    const version = match ? match[1] : FALLBACK_VERSION;
+    const meta = document.querySelector('meta[name="app-version"]');
+    const version = meta?.content && meta.content !== '%%VERSION%%' ? meta.content : FALLBACK_VERSION;
     versionEl.textContent = `v${version}`;
-  } catch (_) {
-    versionEl.textContent = `v${FALLBACK_VERSION}`;
   }
 }
 
@@ -254,4 +242,3 @@ window.addEventListener('keydown', handleKey);
 
 best = loadBest();
 reset();
-syncVersionFromChangelog();

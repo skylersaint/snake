@@ -20,3 +20,6 @@ jobs:
 
       - name: JS syntax check
         run: node --check app.js
+
+      - name: Build
+        run: node scripts/build.mjs
