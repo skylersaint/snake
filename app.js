@@ -16,7 +16,7 @@ const versionEl = document.getElementById('version');
 const GRID = 20;
 const CELL = canvas.width / GRID;
 const STORAGE_KEY = 'snake.best';
-const VERSION = '0.1.0';
+const FALLBACK_VERSION = '0.1.0';
 
 let snake;
 let direction;
@@ -71,7 +71,23 @@ function updateHud() {
   scoreEl.textContent = score;
   bestEl.textContent = best;
   speedEl.textContent = `${speed.toFixed(1)}x`;
-  if (versionEl) versionEl.textContent = `v${VERSION}`;
+  if (versionEl && !versionEl.textContent) {
+    versionEl.textContent = `v${FALLBACK_VERSION}`;
+  }
+}
+
+async function syncVersionFromChangelog() {
+  if (!versionEl) return;
+  try {
+    const res = await fetch('./CHANGELOG.md', { cache: 'no-store' });
+    if (!res.ok) throw new Error('fetch failed');
+    const text = await res.text();
+    const match = text.match(/^## \\[(\\d+\\.\\d+\\.\\d+)\\]/m);
+    const version = match ? match[1] : FALLBACK_VERSION;
+    versionEl.textContent = `v${version}`;
+  } catch (_) {
+    versionEl.textContent = `v${FALLBACK_VERSION}`;
+  }
 }
 
 function start() {
@@ -238,3 +254,4 @@ window.addEventListener('keydown', handleKey);
 
 best = loadBest();
 reset();
+syncVersionFromChangelog();
