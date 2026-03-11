@@ -230,6 +230,23 @@ input[type=range] {
   color: rgba(27, 27, 27, 0.6);
 }
 
+.meta {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.version {
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: #f0eee8;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
 .keys span {
   font-weight: 600;
 }
@@ -276,4 +293,3 @@ input[type=range] {
 .footer {
   animation-delay: 0.2s;
 }
-

@@ -11,10 +11,12 @@ const pauseBtn = document.getElementById('pause-btn');
 const restartBtn = document.getElementById('restart-btn');
 const speedRange = document.getElementById('speed-range');
 const touchButtons = document.querySelectorAll('.touch button');
+const versionEl = document.getElementById('version');
 
 const GRID = 20;
 const CELL = canvas.width / GRID;
 const STORAGE_KEY = 'snake.best';
+const VERSION = '0.1.0';
 
 let snake;
 let direction;
@@ -69,6 +71,7 @@ function updateHud() {
   scoreEl.textContent = score;
   bestEl.textContent = best;
   speedEl.textContent = `${speed.toFixed(1)}x`;
+  if (versionEl) versionEl.textContent = `v${VERSION}`;
 }
 
 function start() {
